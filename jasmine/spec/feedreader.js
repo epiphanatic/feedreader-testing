@@ -115,10 +115,9 @@ $(function() {
 
         it('should have at least one entry', function () {
             // since app.js is emptying the .feed container and then appending to same container,
-            // then check .feed is not null (if no entries than it will be)
-            // i've tested this assumption by messing up the ajax url
-            expect($('.feed')).not.toBe(null);
-        })
+            // then check .feed
+            expect($('.feed .entry').length).toBeGreaterThan(0);
+        });
 
 
     });
@@ -135,21 +134,23 @@ $(function() {
         let contentNew;
 
         // first load the first entry and set contentInitial to text of the element
+        // then load the second entry
+        // wait for both to be done before the test
         beforeEach(function (done) {
             loadFeed(0, function() {
-                contentInitial = $(".feed").text();
+                contentInitial = $(".feed .entry-link").text();
+                console.log(contentInitial);
+                done();
+            });
+            loadFeed(1, function() {
+                contentNew = $(".feed .entry-link").text();
+                console.log(contentNew);
                 done();
             });
         });
 
-        // now get the second entry and see if the text is the same
-        // tested algorithm by comparing contentInital to itself so it would fail
+        // now see if the text is not the same
         it('changes feed content', function () {
-            loadFeed(1, function() {
-                contentNew = $(".feed").text();
-                done();
-            });
-            // compare
             expect(contentInitial).not.toEqual(contentNew);
         });
 
