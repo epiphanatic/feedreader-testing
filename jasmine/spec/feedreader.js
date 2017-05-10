@@ -139,13 +139,10 @@ $(function() {
         beforeEach(function (done) {
             loadFeed(0, function() {
                 contentInitial = $(".feed .entry-link").text();
-                // console.log(contentInitial);
-                done();
-            });
-            loadFeed(1, function() {
-                contentNew = $(".feed .entry-link").text();
-                // console.log(contentNew);
-                done();
+                loadFeed(1, function() {
+                    contentNew = $(".feed .entry-link").text();
+                    done();
+                });
             });
         });
 
